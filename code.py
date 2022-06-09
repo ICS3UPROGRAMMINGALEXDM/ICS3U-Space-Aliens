@@ -11,8 +11,9 @@ def game_scene():
     # his function is the main game scene
 
     # accesses the image bank and setting it to a variable st index 0
-    image_bank_background = stage.Bank.from_bmp16("space_aliens_background.bmp")\
-    # sets up a new image bank, this one for the sprites
+    image_bank_background = stage.Bank.from_bmp16(
+        "space_aliens_background.bmp"
+    )  # sets up a new image bank, this one for the sprites
     image_bank_sprites = stage.Bank.from_bmp16("space_aliens.bmp")
     # creates the 10 by 8 image grid, sets it to background
     background = stage.Grid(image_bank_background, 10, 8)
@@ -32,7 +33,7 @@ def game_scene():
 
         # update game logic
 
-        # redraw sprites 
+        # redraw sprites
         # refreshes the ship sprite
         game.render_sprites([ship])
         # wait until the specified 60th of a second is reached
