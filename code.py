@@ -3,8 +3,8 @@
 # Date: 03/25/2022
 # Description: This is my CPT game for the edgebadge
 
-import ugame
 import stage
+import ugame
 
 
 def game_scene():
@@ -30,6 +30,25 @@ def game_scene():
     # this is the game loop so it is supposed to loop forever
     while True:
         # Get user input
+        # getting the buttons that are pressed - 60 times a second
+        keys = ugame.buttons.get_pressed()
+
+        if keys & ugame.K_X:
+            print("B")
+        # if keys & ugame.k_B:
+        #     print("B")
+        if keys & ugame.K_START:
+            print("Start")
+        if keys & ugame.K_SELECT:
+            print("Select")
+        if keys & ugame.K_RIGHT:
+            ship.move(ship.x + 1, ship.y)
+        if keys & ugame.K_LEFT:
+            ship.move(ship.x - 1, ship.y)
+        if keys & ugame.K_UP:
+            ship.move(ship.x, ship.y - 1)
+        if keys & ugame.K_DOWN:
+            ship.move(ship.x, ship.y + 1)
 
         # update game logic
 
