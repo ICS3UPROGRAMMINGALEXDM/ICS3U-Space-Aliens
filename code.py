@@ -6,6 +6,8 @@
 import stage
 import ugame
 
+import constants
+
 
 def game_scene():
     # his function is the main game scene
@@ -16,13 +18,13 @@ def game_scene():
     )  # sets up a new image bank, this one for the sprites
     image_bank_sprites = stage.Bank.from_bmp16("space_aliens.bmp")
     # creates the 10 by 8 image grid, sets it to background
-    background = stage.Grid(image_bank_background, 10, 8)
+    background = stage.Grid(image_bank_background, constants.SCREEN_GRID_X, constants.SCREEN_GRID_Y)
     # creates the ship sprite and sets it to the 5th index of the sprite list
     # puts it to 75,66 on the screen
     ship = stage.Sprite(image_bank_sprites, 5, 75, 66)
 
     # 60 means 60 hertz which will update it 60 times per second
-    game = stage.Stage(ugame.display, 60)
+    game = stage.Stage(ugame.display, constants.FPS)
     # accesses the first layer(background) and makes the list of images for the background
     game.layers = [ship] + [background]
     # takes layers and shows them on the screen
@@ -34,13 +36,13 @@ def game_scene():
         keys = ugame.buttons.get_pressed()
         # The if statements decide what to do when a button is pressed
         if keys & ugame.K_X:
-            print("B")
+            pass
         if keys & ugame.K_O:
-            print("A")
+            pass
         if keys & ugame.K_START:
-            print("Start")
+            pass
         if keys & ugame.K_SELECT:
-            print("Select")
+            pass
         if keys & ugame.K_RIGHT:
             # Moves the ship right
             ship.move(ship.x + 1, ship.y)
@@ -49,10 +51,10 @@ def game_scene():
             ship.move(ship.x - 1, ship.y)
         if keys & ugame.K_UP:
             # moves the ship up
-            ship.move(ship.x, ship.y - 1)
+            pass
         if keys & ugame.K_DOWN:
             # moves the ship down
-            ship.move(ship.x, ship.y + 1)
+            pass
 
         # update game logic
 
