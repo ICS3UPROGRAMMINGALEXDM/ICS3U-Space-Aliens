@@ -16,3 +16,13 @@ TOTAL_NUMBER_OF_ALIENS = 5
 FPS = 60
 # How fast every sprite can move
 SPRITE_MOVEMENT_SPEED = 1
+
+# Button state is a dictionary that holds key value pairs
+# first element is the key, second is the value
+
+button_state = {
+    "button_up": "up",
+    "button_just_pressed": "just pressed",
+    "button_still_pressed": "still pressed",
+    "button_released": "released"
+}
