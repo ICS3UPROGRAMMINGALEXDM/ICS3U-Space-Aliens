@@ -32,22 +32,26 @@ def game_scene():
         # Get user input
         # getting the buttons that are pressed - 60 times a second
         keys = ugame.buttons.get_pressed()
-
+        # The if statements decide what to do when a button is pressed
         if keys & ugame.K_X:
             print("B")
-        # if keys & ugame.k_B:
-        #     print("B")
+        if keys & ugame.K_O:
+            print("A")
         if keys & ugame.K_START:
             print("Start")
         if keys & ugame.K_SELECT:
             print("Select")
         if keys & ugame.K_RIGHT:
+            # Moves the ship right
             ship.move(ship.x + 1, ship.y)
         if keys & ugame.K_LEFT:
+            # moves the ship left
             ship.move(ship.x - 1, ship.y)
         if keys & ugame.K_UP:
+            # moves the ship up
             ship.move(ship.x, ship.y - 1)
         if keys & ugame.K_DOWN:
+            # moves the ship down
             ship.move(ship.x, ship.y + 1)
 
         # update game logic
