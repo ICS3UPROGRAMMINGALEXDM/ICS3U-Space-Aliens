@@ -4,7 +4,6 @@
 # Description: This is my CPT game for the edgebadge
 
 import constants
-
 import stage
 import ugame
 
