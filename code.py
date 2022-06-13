@@ -3,11 +3,10 @@
 # Date: 03/25/2022
 # Description: This is my CPT game for the edgebadge
 
+import constants
 
 import stage
 import ugame
-
-import constants
 
 
 def game_scene():
