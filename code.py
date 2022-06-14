@@ -19,7 +19,9 @@ def menu_scene():
     text = []
 
     # variable makes a piece of text // pallette selects the color
-    text1 = stage.Text(width=29, height=12, font = None, palette=constants.RED_PALETTE, buffer = None)
+    text1 = stage.Text(
+        width=29, height=12, font=None, palette=constants.RED_PALETTE, buffer=None
+    )
 
     # moves the cursor to this location
     text1.move(2, 10)
@@ -31,7 +33,9 @@ def menu_scene():
     text.append(text1)
 
     # making another text object
-    text2 = stage.Text(width=29, height=12, font = None, palette=constants.RED_PALETTE, buffer = None)
+    text2 = stage.Text(
+        width=29, height=12, font=None, palette=constants.RED_PALETTE, buffer=None
+    )
 
     # moves the cursor to this location
     text2.move(35, 110)
@@ -190,6 +194,7 @@ def game_scene():
 
         # wait until the specified 60th of a second is reached
         game.tick()
+
 
 if __name__ == "__main__":
     menu_scene()
