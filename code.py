@@ -5,15 +5,100 @@
 
 
 import constants
+import time
+import random
 import stage
 import ugame
 
+
+
+
+def splash_scene():
+    # this function is the main game scene
+    
+    # set a var to hold the soumd
+    coin_sound = open("coin.wav", 'rb')
+
+    # accesses audio library
+    sound = ugame.audio
+
+    # Stops sound from playing
+    sound.stop()
+
+    # Ensures unmuted
+    sound.mute(False)
+
+    # Plays the coin sound at the beginning of the splash screen
+    sound.play(coin_sound)
+
+    # accesses the image bank and setting it to a variable st index 0
+    image_bank_mt_background = stage.Bank.from_bmp16("mt_game_studio.bmp")
+
+    # creates the 10 by 8 image grid, sets it to background
+    background = stage.Grid(
+        image_bank_mt_background, constants.SCREEN_GRID_X, constants.SCREEN_GRID_Y
+    )
+
+    # creates the 10 by 8 image grid, sets it to background
+    # this allows us to knit together an image
+    background = stage.Grid(
+        image_bank_mt_background, constants.SCREEN_GRID_X, constants.SCREEN_GRID_Y
+    )
+
+    # used this program to split the image into tile: 
+
+    #   https://ezgif.com/sprite-cutter/ezgif-5-818cdbcc3f66.png
+
+    background.tile(2, 2, 0)  # blank white
+    background.tile(3, 2, 1)
+    background.tile(4, 2, 2)
+    background.tile(5, 2, 3)
+    background.tile(6, 2, 4)
+    background.tile(7, 2, 0)  # blank white
+
+    background.tile(2, 3, 0)  # blank white
+    background.tile(3, 3, 5)
+    background.tile(4, 3, 6)
+    background.tile(5, 3, 7)
+    background.tile(6, 3, 8)
+    background.tile(7, 3, 0)  # blank white
+
+    background.tile(2, 4, 0)  # blank white
+    background.tile(3, 4, 9)
+    background.tile(4, 4, 10)
+    background.tile(5, 4, 11)
+    background.tile(6, 4, 12)
+    background.tile(7, 4, 0)  # blank white
+
+    background.tile(2, 5, 0)  # blank white
+    background.tile(3, 5, 0)
+    background.tile(4, 5, 13)
+    background.tile(5, 5, 14)
+    background.tile(6, 5, 0)
+    background.tile(7, 5, 0)  # blank white
+
+    # 60 means 60 hertz which will update it 60 times per second
+    game = stage.Stage(ugame.display, constants.FPS)
+
+    # accesses the first layer(background) and makes the list of images for the background
+    game.layers = [background]
+
+    # takes layers and shows them on the screen
+    game.render_block()
+
+    # this is the game loop so it is supposed to loop forever
+    while True:
+        # wait for two seconds
+        time.sleep(2.0)
+
+        # goes to the menu
+        menu_scene()
 
 def menu_scene():
     # his function is the main game scene
 
     # accesses the image bank and setting it to a variable st index 0
-    image_bank_background = stage.Bank.from_bmp16("space_aliens_background.bmp")
+    image_bank_mt_background = stage.Bank.from_bmp16("mt_game_studio.bmp")
 
     # new variable called text set to list
     text = []
@@ -24,7 +109,7 @@ def menu_scene():
     )
 
     # moves the cursor to this location
-    text1.move(2, 10)
+    text1.move(5, 10)
 
     # What the text is going to say
     text1.text("DE MEO GAME STUDIOS")
@@ -48,7 +133,7 @@ def menu_scene():
 
     # creates the 10 by 8 image grid, sets it to background
     background = stage.Grid(
-        image_bank_background, constants.SCREEN_GRID_X, constants.SCREEN_GRID_Y
+        image_bank_mt_background, constants.SCREEN_GRID_X, constants.SCREEN_GRID_Y
     )
 
     # 60 means 60 hertz which will update it 60 times per second
@@ -68,11 +153,11 @@ def menu_scene():
 
         # The if statements decide what to do when a button is pressed
         if keys & ugame.K_START:
+            print("Start")
             game_scene()
 
         # wait until the specified 60th of a second is reached
         game.tick()
-
 
 def game_scene():
     # his function is the main game scene
@@ -197,4 +282,4 @@ def game_scene():
 
 
 if __name__ == "__main__":
-    menu_scene()
+    splash_scene()
