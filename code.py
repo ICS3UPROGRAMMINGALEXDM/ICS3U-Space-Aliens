@@ -11,13 +11,11 @@ import stage
 import ugame
 
 
-
-
 def splash_scene():
     # this function is the main game scene
-    
+
     # set a var to hold the soumd
-    coin_sound = open("coin.wav", 'rb')
+    coin_sound = open("coin.wav", "rb")
 
     # accesses audio library
     sound = ugame.audio
@@ -45,7 +43,7 @@ def splash_scene():
         image_bank_mt_background, constants.SCREEN_GRID_X, constants.SCREEN_GRID_Y
     )
 
-    # used this program to split the image into tile: 
+    # used this program to split the image into tile:
 
     #   https://ezgif.com/sprite-cutter/ezgif-5-818cdbcc3f66.png
 
@@ -93,6 +91,7 @@ def splash_scene():
 
         # goes to the menu
         menu_scene()
+
 
 def menu_scene():
     # his function is the main game scene
@@ -159,6 +158,7 @@ def menu_scene():
         # wait until the specified 60th of a second is reached
         game.tick()
 
+
 def game_scene():
     # his function is the main game scene
 
@@ -198,6 +198,17 @@ def game_scene():
     background = stage.Grid(
         image_bank_background, constants.SCREEN_GRID_X, constants.SCREEN_GRID_Y
     )
+
+    # This loop creates a random background with the tiles
+    # first for loop goes through the x axis
+    for x_location in range(constants.SCREEN_GRID_X):
+        # this loop goes through the y axis
+        for y_location in range(constants.SCREEN_GRID_Y):
+            # picks a random tile from the background
+            tile_picked = random.randint(1, 3)
+
+            # places tile at the specified location
+            background.tile(x_location, y_location, tile_picked)
 
     # creates the ship sprite and sets it to the index 5 of the sprite list
     # puts it to 75,66 on the screen
