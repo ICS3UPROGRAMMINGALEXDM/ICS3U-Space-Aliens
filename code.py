@@ -103,32 +103,32 @@ def menu_scene():
     text = []
 
     # variable makes a piece of text // pallette selects the color
-    text1 = stage.Text(
+    name_text = stage.Text(
         width=29, height=12, font=None, palette=constants.RED_PALETTE, buffer=None
     )
 
     # moves the cursor to this location
-    text1.move(5, 10)
+    name_text.move(5, 10)
 
     # What the text is going to say
-    text1.text("DE MEO GAME STUDIOS")
+    name_text.text("DE MEO GAME STUDIOS")
 
     # adds it to the list
-    text.append(text1)
+    text.append(name_text)
 
     # making another text object
-    text2 = stage.Text(
+    start_text = stage.Text(
         width=29, height=12, font=None, palette=constants.RED_PALETTE, buffer=None
     )
 
     # moves the cursor to this location
-    text2.move(35, 110)
+    start_text.move(35, 110)
 
     # What the text will say
-    text2.text("PRESS START!")
+    start_text.text("PRESS START!")
 
     # adding to text list
-    text.append(text2)
+    text.append(start_text)
 
     # creates the 10 by 8 image grid, sets it to background
     background = stage.Grid(
@@ -161,6 +161,14 @@ def menu_scene():
 
 def game_scene():
     # his function is the main game scene
+
+    def show_alien():
+        # This function takes an alien from off screen and puts it onscreen
+        for alien_number in range(len(aliens)):
+            # makes sure alien is off screen
+            if aliens[alien_number].x < 0:
+                aliens[alien_number].move(random.randint(0 + constants.SPRITE_SIZE, constants.SCREEN_X - constants.SPRITE_SIZE), constants.OFF_TOP_SCREEN)
+                break
 
     # accesses the image bank and setting it to a variable st index 0
     image_bank_background = stage.Bank.from_bmp16("space_aliens_background.bmp")
@@ -216,20 +224,24 @@ def game_scene():
         image_bank_sprites, 5, 75, constants.SCREEN_Y - (2 * constants.SPRITE_SIZE)
     )
 
-    # creates the alien sprite and sets it to index 9 of the sprite list
-    alien = stage.Sprite(
-        image_bank_sprites,
-        9,
-        int(constants.SCREEN_X / 2 - constants.SPRITE_SIZE / 2),
-        16,
-    )
+    # creates the alien sprites and sets it to index 9 of the sprite list
+    aliens = []
+    for lazer_number in range(constants.TOTAL_NUMBER_OF_ALIENS):
+        # creates an alien and sets it off screen
+        a_single_alien = stage.Sprite(image_bank_sprites, 9, constants.OFF_SCREEN_X, constants.OFF_SCREEN_Y)
+
+        # adds alien to aliens list
+        aliens.append(a_single_alien)
+
+    # funtion places 1 alien on the screen
+    show_alien()
     
     # Creates a list for the lazers we will have on screen
     lazers = []
 
     # loop is to make the lazers
     for lazer_number in range(constants.TOTAL_NUMBER_OF_LAZERS):
-        # Creates a lazer sprite
+        # Creates a lazer sprite and puts it off the screen
         a_single_lazer = stage.Sprite(image_bank_sprites, 10, constants.OFF_SCREEN_X, constants.OFF_SCREEN_Y)
 
         # add to the list
@@ -239,7 +251,7 @@ def game_scene():
     game = stage.Stage(ugame.display, constants.FPS)
 
     # accesses the first layer(background) and makes the list of images for the background
-    game.layers = lazers + [ship] + [alien] + [background]
+    game.layers = lazers + [ship] + aliens + [background]
 
     # takes layers and shows them on the screen
     game.render_block()
@@ -305,14 +317,28 @@ def game_scene():
         
         for lazer_number in range(len(lazers)):
             if lazers[lazer_number].x > 0:
+                # if the lazer is on the screen, it will move the lazer up the screen
                 lazers[lazer_number].move(lazers[lazer_number].x, lazers[lazer_number].y - constants.LAZER_SPEED)
 
                 if lazers[lazer_number].y < constants.OFF_TOP_SCREEN:
+                    # if lazer is now off screen, it moves it to its resting position
                     lazers[lazer_number].move(constants.OFF_SCREEN_X, constants.OFF_SCREEN_Y)
+
+        for alien_number in range(len(aliens)):
+            if aliens[alien_number].x > 0:
+                # moves the alien down the screen if it is on screen
+                aliens[alien_number].move(aliens[alien_number].x, aliens[alien_number].y + constants.ALIEN_SPEED)
+
+                if aliens[alien_number].y > constants.SCREEN_Y:
+                    # when the alien goes off the screen, it moves the alien to its resting position
+                    aliens[alien_number].move(constants.OFF_SCREEN_X, constants.OFF_SCREEN_Y)
+
+                    # displays another alien
+                    show_alien()
 
         # redraw sprites
         # refreshes the ship sprite
-        game.render_sprites(lazers +[ship] + [alien])
+        game.render_sprites(lazers +[ship] + aliens)
 
         # wait until the specified 60th of a second is reached
         game.tick()
@@ -320,3 +346,4 @@ def game_scene():
 
 if __name__ == "__main__":
     splash_scene()
+                                                     
