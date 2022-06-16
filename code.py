@@ -9,6 +9,7 @@ import time
 import random
 import stage
 import ugame
+import supervisor
 
 
 def splash_scene():
@@ -212,6 +213,8 @@ def game_scene():
 
     boom_sound = open("boom.wav", 'rb')
 
+    crash_sound = open("crash.wav", 'rb')
+
     # uses the audio library in ugame
     sound = ugame.audio
 
@@ -411,6 +414,25 @@ def game_scene():
 
                             # rewrites the text
                             score_text.text("Score: {0}".format(score))
+        
+        # Checks for collisons between an alien and the ship
+        for alien_number in range(len(aliens)):
+            # Ensures alien is onscreen
+            if aliens[alien_number].x > 0:
+                # check for collisions
+                if stage.collide(aliens[alien_number].x + 1, aliens[alien_number].y, aliens[alien_number].x + 15, aliens[alien_number].y + 15, ship.x, ship.y, ship.x + 15, ship.y + 15):
+                    # Stops all sound
+                    sound.stop()
+
+                    # plays the crash sound
+                    sound.play(crash_sound)
+
+                    # wait three seconds
+                    time.sleep(3.0)
+
+                    # calls the function that shows the game over screen
+                    game_over_scene(score)
+
 
                             
 
@@ -421,6 +443,10 @@ def game_scene():
         # wait until the specified 60th of a second is reached
         game.tick()
 
+def game_over_scene(final_score):
+
+    # creates the imgae bank
+    image_bank_2 = stage.Bank.from_bmp("mt_game_studio.bmp")
 
 if __name__ == "__main__":
     splash_scene()
