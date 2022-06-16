@@ -161,6 +161,8 @@ def menu_scene():
 
 def game_scene():
     # his function is the main game scene
+    # keeps track of the score
+    score = 0
 
     def show_alien():
         # This function takes an alien from off screen and puts it onscreen
@@ -192,6 +194,8 @@ def game_scene():
     # The next portion is to set up the sound
     # this sets a variable to the wav file that holds the sound
     pew_sound = open("pew.wav", "rb")
+
+    boom_sound = open("boom.wav", 'rb')
 
     # uses the audio library in ugame
     sound = ugame.audio
@@ -335,6 +339,33 @@ def game_scene():
 
                     # displays another alien
                     show_alien()
+
+        for lazer_number in range(len(lazers)):
+            # ensures it is referencing a lazer on screen
+            if lazers[lazer_number].x > 0:
+                for alien_number in range(len(aliens)):
+                    # ensures it is referencing an alien that is on screem
+                    if aliens[alien_number].x > 0:
+                        # This if statement checks to see if both the x and y axis of both the alien and lazer cross each other. If they cross its a hit, if  not continue on
+                        if stage.collide(lazers[lazer_number].x + 6, lazers[lazer_number].y + 2, lazers[lazer_number].x + 11, lazers[lazer_number].y + 12, aliens[alien_number].x + 1, aliens[alien_number].y, aliens[alien_number].x + 15, aliens[alien_number].y + 15):
+                            # moves the alien off screen
+                            aliens[alien_number].move(constants.OFF_SCREEN_X, constants.OFF_SCREEN_Y)
+
+                            # moves the lazer off screen
+                            lazers[lazer_number].move(constants.OFF_SCREEN_X, constants.OFF_SCREEN_Y)
+
+                            # stops any previous sound playing
+                            sound.stop()
+
+                            # play the sound for the explosion
+                            sound.play(boom_sound)
+
+                            # update score
+                            score += 1
+
+                            # replace destroyed alien
+                            show_alien()
+                            show_alien()
 
         # redraw sprites
         # refreshes the ship sprite
