@@ -164,6 +164,21 @@ def game_scene():
     # keeps track of the score
     score = 0
 
+    # creates the text cursor
+    score_text = stage.Text(width = 29, height = 14)
+
+    # clears the text from previous game
+    score_text.clear()
+
+    # sets the cursor to screen
+    score_text.cursor(0, 0)
+
+    # moves the cursor to this point
+    score_text.move(1, 1)
+
+    # sets what the text will say
+    score_text.text("Score: {0}".format(score))
+
     def show_alien():
         # This function takes an alien from off screen and puts it onscreen
         for alien_number in range(len(aliens)):
@@ -255,7 +270,7 @@ def game_scene():
     game = stage.Stage(ugame.display, constants.FPS)
 
     # accesses the first layer(background) and makes the list of images for the background
-    game.layers = lazers + [ship] + aliens + [background]
+    game.layers = [score_text] + lazers + [ship] + aliens + [background]
 
     # takes layers and shows them on the screen
     game.render_block()
@@ -340,6 +355,24 @@ def game_scene():
                     # displays another alien
                     show_alien()
 
+                    # updates score
+                    score -= 1
+
+                    # makes sure score doesn't go under 0
+                    if score < 0:
+                        score = 0
+                    # resets the text to say nothing
+                    score_text.clear()
+                    
+                    # resets the cursor
+                    score_text.cursor(0,0)
+
+                    # moves text into position
+                    score_text.move(1, 1)
+
+                    # rewrites the text
+                    score_text.text("Score: {0}".format(score))
+
         for lazer_number in range(len(lazers)):
             # ensures it is referencing a lazer on screen
             if lazers[lazer_number].x > 0:
@@ -360,16 +393,30 @@ def game_scene():
                             # play the sound for the explosion
                             sound.play(boom_sound)
 
-                            # update score
-                            score += 1
-
                             # replace destroyed alien
                             show_alien()
                             show_alien()
 
+                            # update score
+                            score += 1
+
+                            # resets the text to say nothing
+                            score_text.clear()
+                            
+                            # resets the cursor
+                            score_text.cursor(0,0)
+
+                            # moves text into position
+                            score_text.move(1, 1)
+
+                            # rewrites the text
+                            score_text.text("Score: {0}".format(score))
+
+                            
+
         # redraw sprites
         # refreshes the ship sprite
-        game.render_sprites(lazers +[ship] + aliens)
+        game.render_sprites(lazers + [ship] + aliens)
 
         # wait until the specified 60th of a second is reached
         game.tick()
