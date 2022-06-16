@@ -223,12 +223,23 @@ def game_scene():
         int(constants.SCREEN_X / 2 - constants.SPRITE_SIZE / 2),
         16,
     )
+    
+    # Creates a list for the lazers we will have on screen
+    lazers = []
+
+    # loop is to make the lazers
+    for lazer_number in range(constants.TOTAL_NUMBER_OF_LAZERS):
+        # Creates a lazer sprite
+        a_single_lazer = stage.Sprite(image_bank_sprites, 10, constants.OFF_SCREEN_X, constants.OFF_SCREEN_Y)
+
+        # add to the list
+        lazers.append(a_single_lazer)
 
     # 60 means 60 hertz which will update it 60 times per second
     game = stage.Stage(ugame.display, constants.FPS)
 
     # accesses the first layer(background) and makes the list of images for the background
-    game.layers = [ship] + [alien] + [background]
+    game.layers = lazers + [ship] + [alien] + [background]
 
     # takes layers and shows them on the screen
     game.render_block()
@@ -282,11 +293,26 @@ def game_scene():
 
         # play the pew sound if the A button was just pressed ( in the button_just_pressed state)
         if a_button == constants.button_state["button_just_pressed"]:
-            sound.play(pew_sound)
+            for lazer_number in range(len(lazers)):
+                # Makes sure the lazer is stil off screen
+                if lazers[lazer_number].x < 0:
+                    # moves the lazer to the ship location
+                    lazers[lazer_number].move(ship.x, ship.y)
+
+                    # plays sound
+                    sound.play(pew_sound)
+                    break
+        
+        for lazer_number in range(len(lazers)):
+            if lazers[lazer_number].x > 0:
+                lazers[lazer_number].move(lazers[lazer_number].x, lazers[lazer_number].y - constants.LAZER_SPEED)
+
+                if lazers[lazer_number].y < constants.OFF_TOP_SCREEN:
+                    lazers[lazer_number].move(constants.OFF_SCREEN_X, constants.OFF_SCREEN_Y)
 
         # redraw sprites
         # refreshes the ship sprite
-        game.render_sprites([ship] + [alien])
+        game.render_sprites(lazers +[ship] + [alien])
 
         # wait until the specified 60th of a second is reached
         game.tick()

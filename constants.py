@@ -12,6 +12,18 @@ SCREEN_GRID_Y = 8
 # Size of the characters
 SPRITE_SIZE = 16
 TOTAL_NUMBER_OF_ALIENS = 5
+TOTAL_NUMBER_OF_LAZERS = 8
+####SPEEDS####
+SHIP_SPEED = 1
+ALIEN_SPEED = 1
+LAZER_SPEED = 2
+
+#### BOUNDARIES ####
+OFF_SCREEN_X = -100
+OFF_SCREEN_Y = -100
+OFF_TOP_SCREEN = -1 * SPRITE_SIZE
+OFF_BOTTOM_SCREEN = SCREEN_Y + SPRITE_SIZE
+
 # how many times the screen updates every second
 FPS = 60
 # How fast every sprite can move
